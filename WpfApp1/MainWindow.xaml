@@ -13,13 +13,21 @@
         <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
             <Border
                 Name="Border"
-                Margin="{TemplateBinding Padding}"
                 Background="Red"
                 BorderBrush="Orange"
                 BorderThickness="3"
                 CornerRadius="2"
                 TextBlock.Foreground="White">
-                <ContentPresenter RecognizesAccessKey="True" />
+                <Grid>
+                    <Rectangle
+                        Name="FocusCue"
+                        SnapsToDevicePixels="True"
+                        Stroke="Black"
+                        StrokeDashArray="1 2"
+                        StrokeThickness="1"
+                        Visibility="Hidden" />
+                    <ContentPresenter Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" />
+                </Grid>
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -28,6 +36,13 @@
                 <Trigger Property="IsPressed" Value="True">
                     <Setter TargetName="Border" Property="Background" Value="IndianRed" />
                     <Setter TargetName="Border" Property="BorderBrush" Value="DarkKhaki" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter TargetName="FocusCue" Property="Visibility" Value="Visible" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="Border" Property="TextBlock.Foreground" Value="Gray" />
+                    <Setter TargetName="Border" Property="Background" Value="MistyRose" />
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -39,5 +54,19 @@
             Template="{StaticResource ButtonTemplate}">
             A Simple Button with a Custom Template
         </Button>
+        <Button
+            Margin="10"
+            Padding="5"
+            Template="{StaticResource ButtonTemplate}">
+            A Simple Button with a Custom Template
+        </Button>
+        <Button
+            Margin="10"
+            Padding="5"
+            IsEnabled="False"
+            Template="{StaticResource ButtonTemplate}">
+            A Simple Button with a Custom Template
+        </Button>
+
     </StackPanel>
 </Window>
