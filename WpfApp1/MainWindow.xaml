@@ -30,20 +30,29 @@
                 </Grid>
             </Border>
             <ControlTemplate.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter TargetName="Border" Property="Background" Value="DarkRed" />
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter TargetName="Border" Property="Background" Value="IndianRed" />
-                    <Setter TargetName="Border" Property="BorderBrush" Value="DarkKhaki" />
-                </Trigger>
-                <Trigger Property="IsKeyboardFocused" Value="True">
-                    <Setter TargetName="FocusCue" Property="Visibility" Value="Visible" />
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter TargetName="Border" Property="TextBlock.Foreground" Value="Gray" />
-                    <Setter TargetName="Border" Property="Background" Value="MistyRose" />
-                </Trigger>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation
+                                AutoReverse="True"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetName="Border"
+                                Storyboard.TargetProperty="Background.Color"
+                                To="Blue"
+                                Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation
+                                Storyboard.TargetName="Border"
+                                Storyboard.TargetProperty="Background.Color"
+                                Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Resources>
