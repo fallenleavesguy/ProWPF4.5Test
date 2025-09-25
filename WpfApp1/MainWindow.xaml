@@ -9,73 +9,12 @@
     Width="800"
     Height="450"
     mc:Ignorable="d">
-    <Window.Resources>
-        <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
-            <Border
-                Name="Border"
-                Background="Red"
-                BorderBrush="Orange"
-                BorderThickness="3"
-                CornerRadius="2"
-                TextBlock.Foreground="White">
-                <Grid>
-                    <Rectangle
-                        Name="FocusCue"
-                        SnapsToDevicePixels="True"
-                        Stroke="Black"
-                        StrokeDashArray="1 2"
-                        StrokeThickness="1"
-                        Visibility="Hidden" />
-                    <ContentPresenter Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" />
-                </Grid>
-            </Border>
-            <ControlTemplate.Triggers>
-                <EventTrigger RoutedEvent="MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation
-                                AutoReverse="True"
-                                RepeatBehavior="Forever"
-                                Storyboard.TargetName="Border"
-                                Storyboard.TargetProperty="Background.Color"
-                                To="Blue"
-                                Duration="0:0:1" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation
-                                Storyboard.TargetName="Border"
-                                Storyboard.TargetProperty="Background.Color"
-                                Duration="0:0:0.5" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-    </Window.Resources>
     <StackPanel>
         <Button
             Margin="10"
             Padding="5"
-            Template="{StaticResource ButtonTemplate}">
+            Style="{StaticResource CustomButtonStyle}">
             A Simple Button with a Custom Template
         </Button>
-        <Button
-            Margin="10"
-            Padding="5"
-            Template="{StaticResource ButtonTemplate}">
-            A Simple Button with a Custom Template
-        </Button>
-        <Button
-            Margin="10"
-            Padding="5"
-            IsEnabled="False"
-            Template="{StaticResource ButtonTemplate}">
-            A Simple Button with a Custom Template
-        </Button>
-
     </StackPanel>
 </Window>
