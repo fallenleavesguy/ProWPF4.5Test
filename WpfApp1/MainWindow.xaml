@@ -12,6 +12,7 @@
     <Window.Resources>
         <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
             <Border
+                Name="Border"
                 Margin="{TemplateBinding Padding}"
                 Background="Red"
                 BorderBrush="Orange"
@@ -20,6 +21,15 @@
                 TextBlock.Foreground="White">
                 <ContentPresenter RecognizesAccessKey="True" />
             </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Border" Property="Background" Value="DarkRed" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="Border" Property="Background" Value="IndianRed" />
+                    <Setter TargetName="Border" Property="BorderBrush" Value="DarkKhaki" />
+                </Trigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Resources>
     <StackPanel>
