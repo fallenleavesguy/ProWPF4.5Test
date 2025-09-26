@@ -10,6 +10,7 @@ namespace CustomControls
     /// </summary>
     public partial class ColorPickerUserControl : UserControl
     {
+        public static readonly RoutedEvent ColorChangedEvent;
         public static DependencyProperty ColorProperty;
         public static DependencyProperty RedProperty;
         public static DependencyProperty GreenProperty;
@@ -36,7 +37,7 @@ namespace CustomControls
             set { SetValue(BlueProperty, value); }
         }
 
-        public ColorPickerUserControl()
+        static ColorPickerUserControl()
         {
             ColorProperty = DependencyProperty.Register(
                 "Color",
@@ -66,10 +67,27 @@ namespace CustomControls
                 typeof(ColorPickerUserControl),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnColorRGBChanged))
             );
+
+            ColorChangedEvent = EventManager.RegisterRoutedEvent(
+                "ColorChanged",
+                RoutingStrategy.Bubble,
+                typeof(RoutedPropertyChangedEventHandler<Color>),
+                typeof(ColorPickerUserControl)
+            );
+        }
+
+        public event RoutedPropertyChangedEventHandler<Color> ColorChanged
+        {
+            add { AddHandler(ColorChangedEvent, value); }
+            remove { RemoveHandler(ColorChangedEvent, value); }
+        }
+
+        public ColorPickerUserControl()
+        {
             InitializeComponent();
         }
 
-        private void OnColorRGBChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        static void OnColorRGBChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             ColorPickerUserControl colorPicker = (ColorPickerUserControl)sender;
             Color color = colorPicker.Color;
@@ -84,7 +102,7 @@ namespace CustomControls
             colorPicker.Color = color;
         }
 
-        private void OnColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        static void OnColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             Color newColor = (Color)e.NewValue;
 
@@ -92,6 +110,12 @@ namespace CustomControls
             colorPicker.Red = newColor.R;
             colorPicker.Green = newColor.G;
             colorPicker.Blue = newColor.B;
+
+            Color oldColor = (Color)e.OldValue;
+
+            RoutedPropertyChangedEventArgs<Color> args = new RoutedPropertyChangedEventArgs<Color>(oldColor, newColor);
+            args.RoutedEvent = ColorChangedEvent;
+            colorPicker.RaiseEvent(args);
         }
     }
 }
