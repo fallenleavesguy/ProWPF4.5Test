@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace CustomControls
@@ -10,6 +11,8 @@ namespace CustomControls
     /// </summary>
     public partial class ColorPickerUserControl : UserControl
     {
+        private Color? previousColor;
+
         public static readonly RoutedEvent ColorChangedEvent;
         public static DependencyProperty ColorProperty;
         public static DependencyProperty RedProperty;
@@ -85,6 +88,25 @@ namespace CustomControls
         public ColorPickerUserControl()
         {
             InitializeComponent();
+            SetUpCommands();
+        }
+
+        private void SetUpCommands()
+        {
+            CommandBinding binding = new CommandBinding(ApplicationCommands.Undo,
+                UndoCommand_Executed, UndoCommand_CanExecute);
+
+            this.CommandBindings.Add(binding);
+        }
+
+        private void UndoCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = previousColor.HasValue;
+        }
+
+        private void UndoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Color = (Color)previousColor;
         }
 
         static void OnColorRGBChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -116,6 +138,8 @@ namespace CustomControls
             RoutedPropertyChangedEventArgs<Color> args = new RoutedPropertyChangedEventArgs<Color>(oldColor, newColor);
             args.RoutedEvent = ColorChangedEvent;
             colorPicker.RaiseEvent(args);
+
+            colorPicker.previousColor = oldColor;
         }
     }
 }
