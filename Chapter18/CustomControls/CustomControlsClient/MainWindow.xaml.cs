@@ -23,6 +23,13 @@ namespace CustomControlsClient
         public MainWindow()
         {
             InitializeComponent();
+            var a = 5;
+        }
+
+        private void colorPicker_ColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
+        {
+            var a = 5;
+           if (lblColor != null)  lblColor.Text = $"新颜色: {e.NewValue}";
         }
     }
 }
