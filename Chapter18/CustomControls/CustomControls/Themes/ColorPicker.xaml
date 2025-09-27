@@ -17,6 +17,23 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Slider
+                            Name="PART_RedSlider"
+                            Margin="{TemplateBinding Padding}"
+                            Maximum="255"
+                            Minimum="0" />
+                        <Slider
+                            Name="PART_GreenSlider"
+                            Grid.Row="1"
+                            Margin="{TemplateBinding Padding}"
+                            Maximum="255"
+                            Minimum="0" />
+                        <Slider
+                            Name="PART_BlueSlider"
+                            Grid.Row="2"
+                            Margin="{TemplateBinding Padding}"
+                            Maximum="255"
+                            Minimum="0" />
+                        <!--<Slider
                             Margin="{TemplateBinding Padding}"
                             Maximum="255"
                             Minimum="0"
@@ -32,7 +49,7 @@
                             Margin="{TemplateBinding Padding}"
                             Maximum="255"
                             Minimum="0"
-                            Value="{Binding Path=Red, RelativeSource={RelativeSource TemplatedParent}}" />
+                            Value="{Binding Path=Red, RelativeSource={RelativeSource TemplatedParent}}" />-->
                         <Rectangle
                             Grid.RowSpan="3"
                             Grid.Column="1"
@@ -41,7 +58,7 @@
                             Stroke="Black"
                             StrokeThickness="1">
                             <Rectangle.Fill>
-                                <SolidColorBrush Color="{Binding Path=Color, RelativeSource={RelativeSource TemplatedParent}}" />
+                                <SolidColorBrush x:Name="PART_PreviewBrush" Color="{Binding Path=Color, RelativeSource={RelativeSource TemplatedParent}}" />
                             </Rectangle.Fill>
                         </Rectangle>
                     </Grid>

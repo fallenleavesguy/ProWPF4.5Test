@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -146,6 +148,51 @@ namespace CustomControls
             colorPicker.RaiseEvent(args);
 
             colorPicker.previousColor = oldColor;
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            RangeBase redSlider = GetTemplateChild("PART_RedSlider") as RangeBase;
+
+            if (redSlider != null)
+            {
+                Binding binding = new Binding("Red");
+                binding.Source = this;
+                binding.Mode = BindingMode.TwoWay;
+                redSlider.SetBinding(RangeBase.ValueProperty, binding);
+            }
+
+            RangeBase greenSlider = GetTemplateChild("PART_GreenSlider") as RangeBase;
+
+            if (greenSlider != null)
+            {
+                Binding binding = new Binding("Green");
+                binding.Source = this;
+                binding.Mode = BindingMode.TwoWay;
+                greenSlider.SetBinding(RangeBase.ValueProperty, binding);
+            }
+
+            RangeBase blueSlider = GetTemplateChild("PART_BlueSlider") as RangeBase;
+
+            if (blueSlider != null)
+            {
+                Binding binding = new Binding("Blue");
+                binding.Source = this;
+                binding.Mode = BindingMode.TwoWay;
+                blueSlider.SetBinding(RangeBase.ValueProperty, binding);
+            }
+
+            SolidColorBrush brush = GetTemplateChild("PART_PreviewBrush") as SolidColorBrush;
+
+            if (brush != null)
+            {
+                Binding binding = new Binding("Color");
+                binding.Source = brush;
+                binding.Mode = BindingMode.OneWayToSource;
+                this.SetBinding(ColorPicker.ColorProperty, binding);
+            }
         }
     }
 }

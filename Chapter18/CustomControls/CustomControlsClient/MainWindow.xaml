@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <lib:ColorPickerUserControl
+        <lib:ColorPicker
             Name="colorPicker"
             ColorChanged="colorPicker_ColorChanged"
             Color="Beige" />
