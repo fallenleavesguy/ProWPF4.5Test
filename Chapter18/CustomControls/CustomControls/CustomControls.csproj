@@ -57,11 +57,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="ColorPicker.cs" />
     <Compile Include="ColorPickerUserControl.xaml.cs">
       <DependentUpon>ColorPickerUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl1.cs">
-      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
