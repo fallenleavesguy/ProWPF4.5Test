@@ -77,6 +77,15 @@ namespace CustomControls
                 typeof(RoutedPropertyChangedEventHandler<Color>),
                 typeof(ColorPickerUserControl)
             );
+
+            CommandManager.RegisterClassCommandBinding(
+                typeof(ColorPickerUserControl),
+                new CommandBinding(
+                    ApplicationCommands.Undo,
+                    UndoCommand_Executed,
+                    UndoCommand_CanExecute
+                )
+            );
         }
 
         public event RoutedPropertyChangedEventHandler<Color> ColorChanged
@@ -88,25 +97,27 @@ namespace CustomControls
         public ColorPickerUserControl()
         {
             InitializeComponent();
-            SetUpCommands();
+            //SetUpCommands();
         }
 
-        private void SetUpCommands()
-        {
-            CommandBinding binding = new CommandBinding(ApplicationCommands.Undo,
-                UndoCommand_Executed, UndoCommand_CanExecute);
+        //private void SetUpCommands()
+        //{
+        //    CommandBinding binding = new CommandBinding(ApplicationCommands.Undo,
+        //        UndoCommand_Executed, UndoCommand_CanExecute);
 
-            this.CommandBindings.Add(binding);
+        //    this.CommandBindings.Add(binding);
+        //}
+
+        private static void UndoCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            ColorPickerUserControl colorPicker = (ColorPickerUserControl)sender;
+            e.CanExecute = colorPicker.previousColor.HasValue;
         }
 
-        private void UndoCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private static void UndoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            e.CanExecute = previousColor.HasValue;
-        }
-
-        private void UndoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            this.Color = (Color)previousColor;
+            ColorPickerUserControl colorPicker = (ColorPickerUserControl)sender;
+            colorPicker.Color = (Color)colorPicker.previousColor;
         }
 
         static void OnColorRGBChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -135,7 +146,10 @@ namespace CustomControls
 
             Color oldColor = (Color)e.OldValue;
 
-            RoutedPropertyChangedEventArgs<Color> args = new RoutedPropertyChangedEventArgs<Color>(oldColor, newColor);
+            RoutedPropertyChangedEventArgs<Color> args = new RoutedPropertyChangedEventArgs<Color>(
+                oldColor,
+                newColor
+            );
             args.RoutedEvent = ColorChangedEvent;
             colorPicker.RaiseEvent(args);
 
